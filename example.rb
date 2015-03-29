@@ -68,6 +68,11 @@ get '/users' do
   "#{JSON.generate($userlist)}"
 end
 
+get '/posts/:id' do 
+  client = WeiboOAuth2::Client.new
+  "#{client.statuses.user_timeline({:uid => :id})}"
+end
+
 post '/update' do
   client = WeiboOAuth2::Client.new
   client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]}) 

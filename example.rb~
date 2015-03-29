@@ -65,7 +65,12 @@ get '/screen.css' do
 end
 
 get '/users' do
-  "#{JSON.generate(@userlist)}"
+  "#{JSON.generate($userlist)}"
+end
+
+get '/posts/:id' do 
+  client = WeiboOAuth2::Client.new
+  "#{client.statuses.user_timeline({:uid => :id})}"
 end
 
 post '/update' do
