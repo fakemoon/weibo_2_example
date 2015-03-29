@@ -4,6 +4,8 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
+require 'json'
+
 enable :sessions
 
 WeiboOAuth2::Config.api_key = ENV['KEY']
@@ -60,6 +62,11 @@ end
 get '/screen.css' do
   content_type 'text/css'
   sass :screen
+end
+
+get '/users' do
+  userlist = client.users.show()
+  haml :users
 end
 
 post '/update' do
