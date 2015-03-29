@@ -31,6 +31,7 @@ get '/' do
   if session[:uid]
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses
+    @userlist[@user.screen_name] = session[:uid]
   end
   haml :index
 end
@@ -63,9 +64,7 @@ get '/screen.css' do
 end
 
 get '/users' do
-  client = WeiboOAuth2::Client.new
-  userlist = client.users.show()
-  haml :users
+  "#{JSON.generate(@userlist)}"
 end
 
 post '/update' do
