@@ -64,6 +64,7 @@ get '/screen.css' do
 end
 
 get '/users' do
+  "#{JSON.generate(@userlist)}"
 end
 
 post '/update' do

@@ -10,6 +10,8 @@ WeiboOAuth2::Config.api_key = ENV['KEY']
 WeiboOAuth2::Config.api_secret = ENV['SECRET']
 WeiboOAuth2::Config.redirect_uri = ENV['REDIR_URI']
 
+@userlist = {}
+
 configure do
   set :bind => "0.0.0.0", :port => "80"
 end
