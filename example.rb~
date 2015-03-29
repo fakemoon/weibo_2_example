@@ -69,8 +69,7 @@ get '/users' do
 end
 
 get '/posts/:id' do 
-  client = WeiboOAuth2::Client.new
-  "#{client.statuses.user_timeline({:uid => :id})}"
+  "#{@statuses.user_timeline()}"
 end
 
 post '/update' do
