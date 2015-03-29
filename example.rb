@@ -34,7 +34,7 @@ get '/' do
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses
     $userlist[@user.screen_name] = session[:uid]
-    $statuslist[session[:uid]] = @statuses.user_timeline
+    $statuslist[session[:uid]] = @statuses.user_timeline({:uid => session[:uid].to_i})
   end
   haml :index
 end

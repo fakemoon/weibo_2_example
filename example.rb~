@@ -71,7 +71,7 @@ get '/users' do
 end
 
 get '/posts/:id' do 
-  "#{$statuslist[:id].user_timeline()}"
+  "#{$statuslist[:id]}"
 end
 
 post '/update' do
