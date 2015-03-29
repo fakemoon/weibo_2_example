@@ -10,8 +10,7 @@ WeiboOAuth2::Config.api_key = ENV['KEY']
 WeiboOAuth2::Config.api_secret = ENV['SECRET']
 WeiboOAuth2::Config.redirect_uri = ENV['REDIR_URI']
 
-@userlist = {}
-
+$userlist = {}
 configure do
   set :bind => "0.0.0.0", :port => "80"
 end
@@ -33,7 +32,7 @@ get '/' do
   if session[:uid]
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses
-    @userlist[@user.screen_name] = session[:uid]
+    $userlist[@user.screen_name] = session[:uid]
   end
   haml :index
 end
@@ -66,7 +65,7 @@ get '/screen.css' do
 end
 
 get '/users' do
-  "#{JSON.generate(@userlist)}"
+  "#{JSON.generate($userlist)}"
 end
 
 post '/update' do
