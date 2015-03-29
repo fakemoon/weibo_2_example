@@ -63,6 +63,7 @@ get '/screen.css' do
 end
 
 get '/users' do
+  client = WeiboOAuth2::Client.new
   userlist = client.users.show()
   haml :users
 end

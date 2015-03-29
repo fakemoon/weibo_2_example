@@ -4,8 +4,6 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
-require 'json'
-
 enable :sessions
 
 WeiboOAuth2::Config.api_key = ENV['KEY']
