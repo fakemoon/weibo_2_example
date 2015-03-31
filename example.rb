@@ -71,7 +71,26 @@ get '/users' do
 end
 
 get '/posts/:uid' do |uid|
-  "#{$statuslist[uid].to_json}"
+  status_temp = {}
+  unless params['keywords'] do
+    $statuslist[uid].each_with_index do |stat, i|
+      status_temp[i] = stat[:text]
+    end
+    "#{status_temp.to_json}"
+  else
+    keywords = params['keywords'].to_s.split(',')
+    $statuslist[uid].each_with_index do |stat, i|
+      response = open("http://api.yutao.us/api/keyword/#{stat[:text]}").read.to_s.split(',')
+      hit = true
+      keywords.each do |item|
+        hit = false unless response.Include?(item)
+      end
+      if hit do
+        status_temp[i] = stat[:text]
+      end
+    end
+  end
+  "#{status_temp.to_json}"
 end
 
 post '/update' do
