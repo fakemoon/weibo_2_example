@@ -37,7 +37,7 @@ get '/' do
   if session[:uid]
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses
-    $userlist[@user.screen_name] = session[:uid]
+    $userlist[session[:uid]] = @user.screen_name
     $statuslist[session[:uid]] = @statuses.user_timeline({:count => 100}).statuses.clone
   end
   haml :index
@@ -62,6 +62,8 @@ end
 
 get '/logout' do
   reset_session
+  $userlist.delete(session[:uid])
+  $statuslist.delete(session[:uid])
   redirect '/'
 end 
 

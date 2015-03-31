@@ -37,7 +37,7 @@ get '/' do
   if session[:uid]
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses
-    $userlist[@user.screen_name] = session[:uid]
+    $userlist[session[:uid]] = @user.screen_name
     $statuslist[session[:uid]] = @statuses.user_timeline({:count => 100}).statuses.clone
   end
   haml :index
@@ -62,6 +62,8 @@ end
 
 get '/logout' do
   reset_session
+  $userlist.delete()
+  $statuslist.delete(session[:uid])
   redirect '/'
 end 
 
@@ -83,7 +85,7 @@ get '/posts/:uid' do |uid|
   else
     keywords = params['keywords'].to_s.split(',').to_set
     $statuslist[uid].each_with_index do |stat, i|
-      response = open("http://api.yutao.us/api/keyword/#{CGI.escape(stat[:text].to_s.gsub('/',''))}").read.to_s.split(',').to_set
+      response = open("http://api.yutao.us/api/keyword/#{CGI.escape(stat[:text].to_s.gsub('/', ' '))}").read.to_s.split(',').to_set
       if keywords.subset?(response)
         status_temp[i] = stat[:text]
       end
