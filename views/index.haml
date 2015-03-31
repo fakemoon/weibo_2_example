@@ -19,7 +19,7 @@
   %h3
     home timeline
   .statuses
-    -@statuses.friends_timeline.statuses.each do |status|
+    -@statuses.user_timeline.statuses.each do |status|
       .status
         %p.text
           =status.text
