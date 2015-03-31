@@ -71,7 +71,7 @@ get '/users' do
 end
 
 get '/posts/:uid' do |uid|
-  "#{$statuslist[uid]}"
+  "#{$statuslist[uid].to_json}"
 end
 
 post '/update' do

@@ -67,11 +67,11 @@ get '/screen.css' do
 end
 
 get '/users' do
-  "#{JSON.generate($userlist)}"
+  "#{$userlist.to_json}"
 end
 
 get '/posts/:uid' do |uid|
-  "#{$statuslist[uid].to_s}"
+  "#{$statuslist[uid].to_json}"
 end
 
 post '/update' do
