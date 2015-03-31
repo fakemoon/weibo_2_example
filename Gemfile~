@@ -6,6 +6,7 @@ gem "sass"
 gem 'weibo_2'
 gem 'time_ago_in_words'
 gem 'json'
+gem 'CGI'
   
 gem 'pry'
 gem 'pry-byebug'

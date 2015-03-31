@@ -4,6 +4,10 @@ require 'rubygems'
 require 'bundler'
 Bundler.require
 
+require 'open-uri'
+require 'cgi'
+require 'set'
+
 enable :sessions
 
 WeiboOAuth2::Config.api_key = ENV['KEY']
@@ -72,24 +76,20 @@ end
 
 get '/posts/:uid' do |uid|
   status_temp = {}
-  unless params['keywords'] do
+  unless params['keywords']
     $statuslist[uid].each_with_index do |stat, i|
       status_temp[i] = stat[:text]
     end
-    "#{status_temp.to_json}"
   else
-    keywords = params['keywords'].to_s.split(',')
+    keywords = params['keywords'].to_s.split(',').to_set
     $statuslist[uid].each_with_index do |stat, i|
-      response = open("http://api.yutao.us/api/keyword/#{stat[:text]}").read.to_s.split(',')
-      hit = true
-      keywords.each do |item|
-        hit = false unless response.Include?(item)
-      end
-      if hit do
+      response = open("http://api.yutao.us/api/keyword/#{CGI.escape(stat[:text])}").read.to_s.split(',')
+      if keywords.subset?(response)
         status_temp[i] = stat[:text]
       end
     end
   end
+  "#{status_temp.to_json}"
 end
 
 post '/update' do
