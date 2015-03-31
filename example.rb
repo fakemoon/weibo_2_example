@@ -33,6 +33,8 @@ get '/' do
   if session[:uid]
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses
+    $userlist[@user.screen_name]] = session[:uid]
+    $statuslist[session[:uid]] = @statuses.user_timeline.statuses
   end
   haml :index
 end
@@ -69,6 +71,7 @@ get '/users' do
 end
 
 get '/posts/:id' do 
+  "#{$statuslist[:id]}"
 end
 
 post '/update' do
