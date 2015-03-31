@@ -34,7 +34,7 @@ get '/' do
     @user = client.users.show_by_uid(session[:uid]) 
     @statuses = client.statuses
     $userlist[@user.screen_name] = session[:uid]
-    $statuslist[session[:uid]] = @statuses.user_timeline.statuses.to_s
+    $statuslist[session[:uid]] = @statuses.user_timeline({:count => 100}).statuses.clone
   end
   haml :index
 end
@@ -71,7 +71,7 @@ get '/users' do
 end
 
 get '/posts/:uid' do |uid|
-  "#{$statuslist[uid]}"
+  "#{$statuslist[uid].to_s}"
 end
 
 post '/update' do
