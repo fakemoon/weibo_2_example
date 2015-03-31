@@ -83,7 +83,7 @@ get '/posts/:uid' do |uid|
   else
     keywords = params['keywords'].to_s.split(',').to_set
     $statuslist[uid].each_with_index do |stat, i|
-      response = open("http://api.yutao.us/api/keyword/#{CGI.escape(stat[:text])}").read.to_s.split(',').to_set
+      response = open("http://api.yutao.us/api/keyword/#{CGI.escape(stat[:text].to_s.gsub('/', ' '))}").read.to_s.split(',').to_set
       if keywords.subset?(response)
         status_temp[i] = stat[:text]
       end
